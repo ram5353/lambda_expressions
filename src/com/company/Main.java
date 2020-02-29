@@ -1,15 +1,15 @@
 package com.company;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Main {
 
     public static void main(String[] args) {
-	// write your code here
+
         new Thread(new CodeToRun()).start();
 
+
+        //calling with anonymous inner class
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -17,6 +17,8 @@ public class Main {
             }
         }).start();
 
+
+        //lambda with multiple statements
         new Thread(() -> {
             System.out.println("Running through lambda expression");
             System.out.println("you can write multiple statements");
@@ -38,40 +40,30 @@ public class Main {
             System.out.println(employee.getName());
         }
 
+        //With anonymous inner class
+        doStringSTuff(new UpperConcat() {
+            @Override
+            public String upperAndConcate(String s1, String s2) {
+                return s1.toUpperCase() + " " + s2.toUpperCase();
+            }
+        },list.get(0).getName(),list.get(1).getName());
 
+        //with lambda
+        UpperConcat uc = (s1,s2) -> {
+             String result = s1.toUpperCase() + " " + s2.toUpperCase();
+            System.out.println(Main.class.getSimpleName());
+             return result;
+        };
+        String sillyString = doStringSTuff(uc,list.get(0).getName(),list.get(1).getName());
+        System.out.println(sillyString);
+
+    }
+
+
+    public final static String doStringSTuff(UpperConcat uc, String s1, String s2) {
+        return uc.upperAndConcate(s1,s2);
     }
 }
 
-class CodeToRun implements Runnable {
 
-    @Override
-    public void run() {
-        System.out.println("Running");
-    }
-}
 
-class Employee {
-    public String name;
-    public int id;
-
-    public Employee(String name, int id) {
-        this.name = name;
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-}
